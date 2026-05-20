@@ -1,16 +1,35 @@
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+namespace RogueChess.Board
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class Tile : MonoBehaviour
     {
-        
-    }
+        [SerializeField]
+        private SpriteRenderer spriteRenderer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public BoardCoordinate Coordinate { get; private set; }
+
+        private Color defaultColor;
+
+        public void Initialize(BoardCoordinate coordinate)
+        {
+            Coordinate = coordinate;
+            defaultColor = spriteRenderer.color;
+        }
+
+        public void SetColor(Color color)
+        {
+            spriteRenderer.color = color;
+        }
+
+        public void Highlight(Color highlightColor)
+        {
+            spriteRenderer.color = highlightColor;
+        }
+
+        public void ResetColor()
+        {
+            spriteRenderer.color = defaultColor;
+        }
     }
 }
