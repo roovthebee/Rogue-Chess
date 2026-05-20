@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class BoardCoordinate : MonoBehaviour
+namespace RogueChess.Board
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [System.Serializable]
+    public struct BoardCoordinate
     {
-        
-    }
+        public int X;
+        public int Y;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public BoardCoordinate(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
 }
