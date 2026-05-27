@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 995e7079cb7ab724ca6c52071956e3a4, type: 3}
+  m_Name: WhiteKingData
+  m_EditorClassIdentifier: Assembly-CSharp::RogueChess.Pieces.PieceData
+  PieceName: King
+  PieceSprite: {fileID: 2037259491933116456, guid: c5554a0cae468c9499419df21b33bb53, type: 3}

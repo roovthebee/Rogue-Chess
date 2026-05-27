@@ -1,0 +1,5 @@
+Chess Piece Spritesheet
+- Archived at: https://commons.wikimedia.org/wiki/File:Chess_Pieces_Sprite.svg
+- Authored by: jurgenwesterhof
+- Original work: Cburnett
+- Date: 25th September 2014, 13:30:03
