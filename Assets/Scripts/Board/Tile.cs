@@ -7,6 +7,7 @@ namespace RogueChess.Board
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private GameObject moveIndicator;
+        [SerializeField] private GameObject captureIndicator;
 
         public BoardCoordinate Coordinate { get; private set; }
 
@@ -35,6 +36,16 @@ namespace RogueChess.Board
         public void HideMoveIndicator()
         {
             moveIndicator.SetActive(false);
+        }
+
+        public void ShowCaptureIndicator()
+        {
+            captureIndicator.SetActive(true);
+        }
+
+        public void HideCaptureIndicator()
+        {
+            captureIndicator.SetActive(false);
         }
     }
 }

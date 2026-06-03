@@ -6,12 +6,12 @@ namespace RogueChess.Pieces
     {
         public BoardCoordinate TargetCoordinate;
 
-        public bool IsOccupied;
+        public bool IsCapture;
 
-        public MoveData(BoardCoordinate targetCoordinate, bool isOccupied)
+        public MoveData(BoardCoordinate targetCoordinate, bool isCapture)
         {
             TargetCoordinate = targetCoordinate;
-            IsOccupied = isOccupied;
+            IsCapture = isCapture;
         }
     }
 }

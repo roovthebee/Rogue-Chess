@@ -63,6 +63,7 @@ namespace RogueChess.Pieces
             foreach (Tile tile in highlightedTiles)
             {
                 tile.HideMoveIndicator();
+                tile.HideCaptureIndicator();
             }
 
             highlightedTiles.Clear();
@@ -79,7 +80,15 @@ namespace RogueChess.Pieces
                     continue;
                 }
 
-                tile.ShowMoveIndicator();
+                if (move.IsCapture)
+                {
+                    tile.ShowCaptureIndicator();
+                }
+                else
+                {
+                    tile.ShowMoveIndicator();
+                }
+
                 highlightedTiles.Add(tile);
             }
         }
@@ -107,6 +116,14 @@ namespace RogueChess.Pieces
         private void MovePiece(BoardCoordinate destination)
         {
             BoardCoordinate previousCoordinate = selectedPiece.Coordinate;
+
+            Piece targetPiece = boardManager.GetPieceAtCoordinate(destination);
+
+            if (targetPiece != null)
+            {
+                Destroy(targetPiece.gameObject);
+                boardManager.RemovePiece(destination);
+            }
 
             boardManager.RemovePiece(previousCoordinate);
             boardManager.PlacePiece(selectedPiece, destination);
