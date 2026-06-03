@@ -152,8 +152,8 @@ MonoBehaviour:
   boardHeight: 8
   tileSize: 1
   tilePrefab: {fileID: 9031217921571038232, guid: 4367e5b9b3947fe42812501897d28af5, type: 3}
-  lightTileColor: {r: 1, g: 1, b: 1, a: 1}
-  darkTileColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  lightTileColor: {r: 0.93333334, g: 0.93333334, b: 0.8235294, a: 1}
+  darkTileColor: {r: 0.4627451, g: 0.5882353, b: 0.3372549, a: 1}
 --- !u!4 &283790107
 Transform:
   m_ObjectHideFlags: 0
