@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RogueChess.Pieces
@@ -7,5 +8,6 @@ namespace RogueChess.Pieces
     {
         public string PieceName;
         public Sprite PieceSprite;
+        public List<MovementRule> MovementRules;
     }
 }

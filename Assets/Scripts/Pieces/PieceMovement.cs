@@ -1,16 +1,25 @@
-using UnityEngine;
+using System.Collections.Generic;
+using RogueChess.Board;
 
-public class PieceMovement : MonoBehaviour
+namespace RogueChess.Pieces
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static class PieceMovement
     {
-        
-    }
+        public static List<MoveData> GetMoves(Piece piece, BoardManager boardManager)
+        {
+            List<MoveData> moves = new List<MoveData>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            foreach (MovementRule rule in piece.PieceData.MovementRules)
+            {
+                BoardCoordinate coordinate = new BoardCoordinate(piece.Coordinate.X + rule.Direction.x, piece.Coordinate.Y + rule.Direction.y);
+
+                if (boardManager.IsWithinBounds(coordinate))
+                {
+                    moves.Add(new MoveData(coordinate));
+                }
+            }
+
+            return moves;
+        }
     }
 }

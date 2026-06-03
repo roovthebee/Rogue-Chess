@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RogueChess.Pieces.PieceData
   PieceName: King
   PieceSprite: {fileID: -9041483226350349321, guid: c5554a0cae468c9499419df21b33bb53, type: 3}
+  MovementRules:
+  - {fileID: 11400000, guid: 74012c254f8d31340ae3941ae69c9ffa, type: 2}
+  - {fileID: 11400000, guid: c8274aef9412c0e43a800959e6f65d5c, type: 2}
+  - {fileID: 11400000, guid: 63e3df7a81f8efd489dd40c85a2bbdb2, type: 2}
+  - {fileID: 11400000, guid: 04c77ce985488244eb41e7d4ca53dbaa, type: 2}
+  - {fileID: 11400000, guid: a9351919d702b28468cc5cba2e9e9eeb, type: 2}
+  - {fileID: 11400000, guid: b1ab70ea16d669c46860f19f6da4df71, type: 2}
+  - {fileID: 11400000, guid: 41c4ab67afea859419eb0095f9ed2fbe, type: 2}
+  - {fileID: 11400000, guid: a9567a54e28700a45b49fa07e8b19112, type: 2}

@@ -1,0 +1,120 @@
+using System.Collections.Generic;
+using RogueChess.Board;
+using UnityEngine;
+
+namespace RogueChess.Pieces
+{
+    public class SelectionManager : MonoBehaviour
+    {
+        [SerializeField] private BoardManager boardManager;
+
+        private List<MoveData> currentMoves = new List<MoveData>();
+        private readonly List<Tile> highlightedTiles = new List<Tile>();
+
+        private Piece selectedPiece;
+        public Piece SelectedPiece => selectedPiece;
+
+        private void OnEnable()
+        {
+            Tile.OnTileClicked += HandleTileClicked;
+        }
+
+        private void OnDisable()
+        {
+            Tile.OnTileClicked -= HandleTileClicked;
+        }
+
+        private void HandleTileClicked(Tile tile)
+        {
+            if (selectedPiece == null)
+            {
+                Piece piece = boardManager.GetPieceAtCoordinate(tile.Coordinate);
+
+                if (piece != null)
+                {
+                    SelectPiece(piece);
+                }
+
+                return;
+            }
+
+            if (IsValidMove(tile.Coordinate))
+            {
+                MovePiece(tile.Coordinate);
+            }
+            else
+            {
+                DeselectPiece();
+            }
+        }
+
+        private void SelectPiece(Piece piece)
+        {
+            ClearHighlights();
+
+            selectedPiece = piece;
+            currentMoves = PieceMovement.GetMoves(piece, boardManager);
+
+            HighlightMoves();
+        }
+
+        private void ClearHighlights()
+        {
+            foreach (Tile tile in highlightedTiles)
+            {
+                tile.HideMoveIndicator();
+            }
+
+            highlightedTiles.Clear();
+        }
+
+        private void HighlightMoves()
+        {
+            foreach (MoveData move in currentMoves)
+            {
+                Tile tile = boardManager.GetTile(move.TargetCoordinate);
+                
+                if (tile == null)
+                {
+                    continue;
+                }
+
+                tile.ShowMoveIndicator();
+                highlightedTiles.Add(tile);
+            }
+        }
+
+        private bool IsValidMove(BoardCoordinate coordinate)
+        {
+            foreach (MoveData move in currentMoves)
+            {
+                if (move.TargetCoordinate.X == coordinate.X && move.TargetCoordinate.Y == coordinate.Y)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void DeselectPiece()
+        {
+            ClearHighlights();
+            selectedPiece = null;
+            currentMoves.Clear();
+        }
+
+        private void MovePiece(BoardCoordinate destination)
+        {
+            BoardCoordinate previousCoordinate = selectedPiece.Coordinate;
+
+            boardManager.RemovePiece(previousCoordinate);
+            boardManager.PlacePiece(selectedPiece, destination);
+            selectedPiece.SetCoordinate(destination);
+
+            selectedPiece.transform.position = boardManager.GetWorldPosition(destination);
+
+            DeselectPiece();
+        }
+    }
+}

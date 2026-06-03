@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class MovementRule : MonoBehaviour
+namespace RogueChess.Pieces
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [CreateAssetMenu(fileName = "MovementRule", menuName = "RogueChess/Movement Rule")]
+    public class MovementRule : ScriptableObject
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Vector2Int Direction;
+        public int MaxDistance = 1;
+        public bool Repeat;
     }
 }

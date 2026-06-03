@@ -1,20 +1,20 @@
+using System;
 using UnityEngine;
 
 namespace RogueChess.Board
 {
     public class Tile : MonoBehaviour
     {
-        [SerializeField]
-        private SpriteRenderer spriteRenderer;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private GameObject moveIndicator;
 
         public BoardCoordinate Coordinate { get; private set; }
 
-        private Color defaultColor;
+        public static event Action<Tile> OnTileClicked;
 
         public void Initialize(BoardCoordinate coordinate)
         {
             Coordinate = coordinate;
-            defaultColor = spriteRenderer.color;
         }
 
         public void SetColor(Color color)
@@ -22,14 +22,19 @@ namespace RogueChess.Board
             spriteRenderer.color = color;
         }
 
-        public void Highlight(Color highlightColor)
+        private void OnMouseDown()
         {
-            spriteRenderer.color = highlightColor;
+            OnTileClicked?.Invoke(this);
         }
 
-        public void ResetColor()
+        public void ShowMoveIndicator()
         {
-            spriteRenderer.color = defaultColor;
+            moveIndicator.SetActive(true);
+        }
+
+        public void HideMoveIndicator()
+        {
+            moveIndicator.SetActive(false);
         }
     }
 }
