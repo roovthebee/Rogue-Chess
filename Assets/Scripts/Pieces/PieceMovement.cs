@@ -15,7 +15,14 @@ namespace RogueChess.Pieces
 
                 if (boardManager.IsWithinBounds(coordinate))
                 {
-                    moves.Add(new MoveData(coordinate));
+                    bool occupied = boardManager.IsTileOccupied(coordinate);
+
+                    if (occupied)
+                    {
+                        continue;
+                    }
+
+                    moves.Add(new MoveData(coordinate, occupied));
                 }
             }
 
