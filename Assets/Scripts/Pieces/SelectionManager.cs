@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using RogueChess.Board;
+using RogueChess.Core;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RogueChess.Pieces
@@ -26,6 +27,11 @@ namespace RogueChess.Pieces
 
         private void HandleTileClicked(Tile tile)
         {
+            if (GameManager.Instance.IsGameOver)
+            {
+                return;
+            }
+
             if (selectedPiece == null)
             {
                 Piece piece = boardManager.GetPieceAtCoordinate(tile.Coordinate);
@@ -50,6 +56,11 @@ namespace RogueChess.Pieces
 
         private void SelectPiece(Piece piece)
         {
+            if (piece.Team != GameManager.Instance.CurrentTurn)
+            {
+                return;
+            }
+
             ClearHighlights();
 
             selectedPiece = piece;
@@ -121,6 +132,11 @@ namespace RogueChess.Pieces
 
             if (targetPiece != null)
             {
+                if (targetPiece.PieceData.PieceType == PieceType.King)
+                {
+                    GameManager.Instance.EndGame(selectedPiece.Team);
+                }
+
                 Destroy(targetPiece.gameObject);
                 boardManager.RemovePiece(destination);
             }
@@ -132,6 +148,8 @@ namespace RogueChess.Pieces
             selectedPiece.transform.position = boardManager.GetWorldPosition(destination);
 
             DeselectPiece();
+
+            GameManager.Instance.EndTurn();
         }
     }
 }

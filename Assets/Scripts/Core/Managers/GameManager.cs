@@ -1,16 +1,49 @@
+using RogueChess.Pieces;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace RogueChess.Core
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class GameManager : MonoBehaviour
     {
-        
-    }
+        public static GameManager Instance { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Team CurrentTurn { get; private set; }
+        public bool IsGameOver { get; private set; }
+
+        public Team? WinningTeam { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+        }
+
+        private void Start()
+        {
+            StartGame();
+        }
+
+        public void StartGame()
+        {
+            CurrentTurn = Team.White;
+            IsGameOver = false;
+            WinningTeam = null;
+        }
+
+        public void EndTurn()
+        {
+            CurrentTurn = CurrentTurn == Team.White ? Team.Black : Team.White;
+        }
+
+        public void EndGame(Team winningTeam)
+        {
+            WinningTeam = winningTeam;
+            IsGameOver = true;
+        }
     }
 }
