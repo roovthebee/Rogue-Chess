@@ -1,3 +1,5 @@
+using RogueChess.Board;
+using RogueChess.Pieces;
 using UnityEngine;
 
 namespace RogueChess.Board
@@ -17,24 +19,17 @@ namespace RogueChess.Board
         [SerializeField] private Color darkTileColor = Color.gray;
 
         private Tile[,] tiles;
+        private Piece[,] occupiedPieces;
 
-        private void Start()
+        public void InitializeBoard()
         {
             GenerateBoard();
-
-            BoardCoordinate testCoordinate = new BoardCoordinate(3, 3);
-
-            Tile testTile = GetTile(testCoordinate);
-
-            if (testTile != null)
-            {
-                testTile.Highlight(Color.green);
-            }
         }
 
         private void GenerateBoard()
         {
             tiles = new Tile[boardWidth, boardHeight];
+            occupiedPieces = new Piece[boardWidth, boardHeight];
 
             float boardOffsetX = (boardWidth - 1) / 2f;
             float boardOffsetY = (boardHeight - 1) / 2f;
@@ -49,7 +44,7 @@ namespace RogueChess.Board
                     BoardCoordinate coordinate = new BoardCoordinate(x, y);
                     spawnedTile.Initialize(coordinate);
 
-                    bool isLightTile = (x + y) % 2 == 0;
+                    bool isLightTile = (x + y) % 2 != 0;
                     spawnedTile.SetColor(isLightTile ? lightTileColor : darkTileColor);
                     spawnedTile.name = $"Tile ({x}, {y})";
 
@@ -79,6 +74,48 @@ namespace RogueChess.Board
             float boardOffsetY = (boardHeight - 1) / 2f;
 
             return new Vector3((coordinate.X - boardOffsetX) * tileSize, (coordinate.Y - boardOffsetY) * tileSize);
+        }
+
+        public bool IsTileOccupied(BoardCoordinate coordinate)
+        {
+            if (!IsWithinBounds(coordinate))
+            {
+                return false;
+            }
+
+            return occupiedPieces[coordinate.X, coordinate.Y] != null;
+        }
+
+        public Piece GetPieceAtCoordinate(BoardCoordinate coordinate)
+        {
+            if (!IsWithinBounds(coordinate))
+            {
+                return null;
+            }
+
+            return occupiedPieces[coordinate.X, coordinate.Y];
+        }
+
+        public void PlacePiece(Piece piece, BoardCoordinate coordinate)
+        {
+            if (!IsWithinBounds(coordinate))
+            {
+                return;
+            }
+
+            Debug.Log(piece);
+
+            occupiedPieces[coordinate.X, coordinate.Y] = piece;
+        }
+
+        public void RemovePiece(BoardCoordinate coordinate)
+        {
+            if (!IsWithinBounds(coordinate))
+            {
+                return;
+            }
+
+            occupiedPieces[coordinate.X, coordinate.Y] = null;
         }
     }
 }
