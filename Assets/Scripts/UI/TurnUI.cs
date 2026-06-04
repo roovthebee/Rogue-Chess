@@ -1,16 +1,23 @@
+using RogueChess.Core;
+using TMPro;
 using UnityEngine;
 
-public class TurnUI : MonoBehaviour
+namespace RogueChess.UI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class TurnUI : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private TMP_Text turnText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Update()
+        {
+            if (GameManager.Instance.IsGameOver)
+            {
+                turnText.text = $"{GameManager.Instance.WinningTeam} Wins!";
+            }
+            else
+            {
+                turnText.text = $"{GameManager.Instance.CurrentTurn} Turn";
+            }
+        }
     }
 }
