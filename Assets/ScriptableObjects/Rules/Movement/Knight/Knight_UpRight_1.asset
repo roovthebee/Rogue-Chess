@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 479e2458d25383f46b26f84c29c45f64, type: 3}
-  m_Name: Move_UpLeft
+  m_Name: Knight_UpRight_1
   m_EditorClassIdentifier: Assembly-CSharp::RogueChess.Pieces.MovementRule
-  Direction: {x: -1, y: 1}
+  MovementType: 1
+  Direction: {x: 2, y: 1}
   MaxDistance: 1
-  Repeat: 0
+  UnlimitedRange: 0

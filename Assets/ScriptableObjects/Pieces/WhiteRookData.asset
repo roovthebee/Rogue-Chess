@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 995e7079cb7ab724ca6c52071956e3a4, type: 3}
+  m_Name: WhiteRookData
+  m_EditorClassIdentifier: Assembly-CSharp::RogueChess.Pieces.PieceData
+  PieceType: 2
+  PieceName: Rook
+  PieceSprite: {fileID: 2856530322873472237, guid: c5554a0cae468c9499419df21b33bb53, type: 3}
+  MovementRules:
+  - {fileID: 11400000, guid: ad5d3b11cff0ff748b487bddd6435388, type: 2}
+  - {fileID: 11400000, guid: 5db20c28110c87844920c35edc8e3241, type: 2}
+  - {fileID: 11400000, guid: 410d0aed571825c44a660f9f72cb7338, type: 2}
+  - {fileID: 11400000, guid: 4ce65e29076efdc40b54a863df456a06, type: 2}
