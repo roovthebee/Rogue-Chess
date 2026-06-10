@@ -1,3 +1,5 @@
+using RogueChess.Board;
+using RogueChess.Core.Rules;
 using RogueChess.Pieces;
 using UnityEngine;
 

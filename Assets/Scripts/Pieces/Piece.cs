@@ -9,10 +9,9 @@ namespace RogueChess.Pieces
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         public PieceData PieceData { get; private set; }
-        
         public Team Team { get; private set; }
-        
         public BoardCoordinate Coordinate { get; private set; }
+        public bool HasMoved { get; private set; }
 
         public void Initialize(PieceData pieceData, Team team, BoardCoordinate coordinate)
         {
@@ -26,6 +25,16 @@ namespace RogueChess.Pieces
         public void SetCoordinate(BoardCoordinate coordinate)
         {
             Coordinate = coordinate;
+        }
+
+        public void SetCoordinateSilently(BoardCoordinate coordinate)
+        {
+            Coordinate = coordinate;
+        }
+
+        public void MarkMoved()
+        {
+            HasMoved = true;
         }
     }
 }

@@ -21,6 +21,10 @@ namespace RogueChess.Pieces
                     case MovementType.Offset:
                         ProcessOffsetRule(piece, boardManager, rule, moves);
                         break;
+                    
+                    case MovementType.Special:
+                        ProcessSpecialRule(piece, boardManager, rule, moves);
+                        break;
                 }
             }
 
@@ -78,6 +82,91 @@ namespace RogueChess.Pieces
             {
                 moves.Add(new MoveData(coordinate, true));
             }
+        }
+
+        private static void ProcessSpecialRule(Piece piece, BoardManager boardManager, MovementRule rule, List<MoveData> moves)
+        {
+            switch (piece.PieceData.PieceType)
+            {
+                case PieceType.Pawn:
+                    GeneratePawnMoves(piece, boardManager, moves);
+                    break;
+            }
+        }
+
+        private static void GeneratePawnMoves(Piece piece, BoardManager boardManager, List<MoveData> moves)
+        {
+            int direction = piece.Team == Team.White ? 1 : -1;
+            BoardCoordinate forwardSquare = new BoardCoordinate(piece.Coordinate.X, piece.Coordinate.Y + direction);
+
+            if (boardManager.IsWithinBounds(forwardSquare) && !boardManager.IsTileOccupied(forwardSquare))
+            {
+                moves.Add(new MoveData(forwardSquare, false));
+            }
+
+            if (!piece.HasMoved && !boardManager.IsTileOccupied(forwardSquare))
+            {
+                BoardCoordinate doubleForwardSquare = new BoardCoordinate(piece.Coordinate.X, piece.Coordinate.Y + direction * 2);
+
+                if (boardManager.IsWithinBounds(doubleForwardSquare) && !boardManager.IsTileOccupied(doubleForwardSquare))
+                {
+                    moves.Add(new MoveData(doubleForwardSquare, false));
+                }
+            }
+
+            BoardCoordinate leftCapture = new BoardCoordinate(piece.Coordinate.X - 1, piece.Coordinate.Y + direction);
+            BoardCoordinate rightCapture = new BoardCoordinate(piece.Coordinate.X + 1, piece.Coordinate.Y + direction);
+
+            TryAddPawnCapture(piece, boardManager, leftCapture, moves);
+            TryAddPawnCapture(piece, boardManager, rightCapture, moves);
+        }
+
+        private static void TryAddPawnCapture(Piece piece, BoardManager boardManager, BoardCoordinate coordinate, List<MoveData> moves)
+        {
+            if (!boardManager.IsWithinBounds(coordinate))
+            {
+                return;
+            }
+
+            Piece targetPiece = boardManager.GetPieceAtCoordinate(coordinate);
+
+            if (targetPiece == null)
+            {
+                return;
+            }
+
+            if (targetPiece.Team != piece.Team)
+            {
+                moves.Add(new MoveData(coordinate, true));
+            }
+        }
+
+        public static List<BoardCoordinate> GetThreatenedSquares(Piece piece, BoardManager boardManager)
+        {
+            List<BoardCoordinate> threatenedSquare = new List<BoardCoordinate>();
+
+            if (piece.PieceData.PieceType == PieceType.Pawn)
+            {
+                return GetPawnThreatenedSquares(piece);
+            }
+
+            foreach (MoveData move in GetMoves(piece, boardManager))
+            {
+                threatenedSquare.Add(move.TargetCoordinate);
+            }
+
+            return threatenedSquare;
+        }
+
+        private static List<BoardCoordinate> GetPawnThreatenedSquares(Piece piece)
+        {
+            List<BoardCoordinate> threatenedSquares = new List<BoardCoordinate>();
+            int direction = piece.Team == Team.White ? 1 : -1;
+
+            threatenedSquares.Add(new BoardCoordinate(piece.Coordinate.X - 1, piece.Coordinate.Y + direction));
+            threatenedSquares.Add(new BoardCoordinate(piece.Coordinate.X + 1, piece.Coordinate.Y + direction));
+
+            return threatenedSquares;
         }
     }
 }

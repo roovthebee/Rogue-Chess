@@ -1,5 +1,6 @@
 using RogueChess.Board;
 using RogueChess.Core;
+using RogueChess.Core.Rules;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,7 +65,7 @@ namespace RogueChess.Pieces
             ClearHighlights();
 
             selectedPiece = piece;
-            currentMoves = PieceMovement.GetMoves(piece, boardManager);
+            currentMoves = ChessRules.GetLegalMoves(piece, boardManager);
 
             HighlightMoves();
         }
@@ -144,6 +145,7 @@ namespace RogueChess.Pieces
             boardManager.RemovePiece(previousCoordinate);
             boardManager.PlacePiece(selectedPiece, destination);
             selectedPiece.SetCoordinate(destination);
+            selectedPiece.MarkMoved();
 
             selectedPiece.transform.position = boardManager.GetWorldPosition(destination);
 

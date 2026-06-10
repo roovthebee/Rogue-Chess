@@ -222,6 +222,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &219891880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219891882}
+  - component: {fileID: 219891881}
+  m_Layer: 0
+  m_Name: CheckIndicatorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &219891881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219891880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa67fec3f1d76964db09aeb2ab20bca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RogueChess.UI.CheckIndicatorManager
+  boardManager: {fileID: 283790106}
+--- !u!4 &219891882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219891880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &283790105
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,11 +623,17 @@ MonoBehaviour:
   boardManager: {fileID: 283790106}
   piecePrefab: {fileID: 4909034670720041155, guid: 665665ee82d075640974cab1286434f3, type: 3}
   whiteKingData: {fileID: 11400000, guid: bf7381732f69ba94198bd498ebb05649, type: 2}
-  blackKingData: {fileID: 11400000, guid: b4671ed93a92f8d468b0ef244bafe938, type: 2}
   whiteRookData: {fileID: 11400000, guid: b964a51226c21a3489448afa8c5ad03e, type: 2}
   whiteBishopData: {fileID: 11400000, guid: 6ed90c4ab7e63784aa50bbaceca8630a, type: 2}
   whiteQueenData: {fileID: 11400000, guid: fddbcb87d8240254db185ddb7fffb54e, type: 2}
   whiteKnightData: {fileID: 11400000, guid: 37a10b45d0b848640ad31964d11964b8, type: 2}
+  whitePawnData: {fileID: 11400000, guid: 9608d92f599d90f4087daf0c50c29fee, type: 2}
+  blackKingData: {fileID: 11400000, guid: b4671ed93a92f8d468b0ef244bafe938, type: 2}
+  blackRookData: {fileID: 11400000, guid: e5e51c63aaf3e9443bfb61a3afb1303b, type: 2}
+  blackBishopData: {fileID: 11400000, guid: 2c8f61442ab23cb4aa5679e901f4960e, type: 2}
+  blackQueenData: {fileID: 11400000, guid: dacbfc6590d6f7e469c5a771e7da65b2, type: 2}
+  blackKnightData: {fileID: 11400000, guid: 88a1b4d2b32853c42ad6815995ef90e3, type: 2}
+  blackPawnData: {fileID: 11400000, guid: e95e66a6b51c5b243a720239652abeed, type: 2}
 --- !u!4 &876448733
 Transform:
   m_ObjectHideFlags: 0
@@ -791,3 +842,4 @@ SceneRoots:
   - {fileID: 445567129}
   - {fileID: 408459159}
   - {fileID: 191752215}
+  - {fileID: 219891882}

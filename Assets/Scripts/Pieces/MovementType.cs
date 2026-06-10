@@ -1,4 +1,4 @@
 namespace RogueChess.Pieces
 {
-    public enum MovementType { Sliding, Offset }
+    public enum MovementType { Sliding, Offset, Special }
 }

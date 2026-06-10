@@ -1,5 +1,6 @@
 using RogueChess.Board;
 using RogueChess.Pieces;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RogueChess.Board
@@ -20,6 +21,12 @@ namespace RogueChess.Board
 
         private Tile[,] tiles;
         private Piece[,] occupiedPieces;
+
+        private readonly List<Piece> activePieces = new List<Piece>();
+        public IReadOnlyList<Piece> ActivePieces => activePieces;
+
+        public int BoardWidth => boardWidth;
+        public int BoardHeight => boardHeight;
 
         public void InitializeBoard()
         {
@@ -103,12 +110,38 @@ namespace RogueChess.Board
                 return;
             }
 
-            Debug.Log(piece);
+            occupiedPieces[coordinate.X, coordinate.Y] = piece;
+            activePieces.Add(piece);
+        }
+
+        public void RemovePiece(BoardCoordinate coordinate)
+        {
+            if (!IsWithinBounds(coordinate))
+            {
+                return;
+            }
+
+            Piece piece = occupiedPieces[coordinate.X, coordinate.Y];
+
+            if (piece != null)
+            {
+                activePieces.Remove(piece);
+            }
+
+            occupiedPieces[coordinate.X, coordinate.Y] = null;
+        }
+
+        public void PlacePieceSilently(Piece piece, BoardCoordinate coordinate)
+        {
+            if (!IsWithinBounds(coordinate))
+            {
+                return;
+            }
 
             occupiedPieces[coordinate.X, coordinate.Y] = piece;
         }
 
-        public void RemovePiece(BoardCoordinate coordinate)
+        public void RemovePieceSilently(BoardCoordinate coordinate)
         {
             if (!IsWithinBounds(coordinate))
             {
