@@ -13,7 +13,7 @@ namespace RogueChess.UI
         private readonly List<Tile> highlightedTiles = new List<Tile>();
         private readonly Color checkColor = new Color(0.8f, 0.3f, 0.3f);
 
-        private void Update()
+        public void Refresh()
         {
             ClearHighlights();
 

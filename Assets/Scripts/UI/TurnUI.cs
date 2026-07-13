@@ -8,16 +8,22 @@ namespace RogueChess.UI
     {
         [SerializeField] private TMP_Text turnText;
 
-        private void Update()
+        public void Refresh()
         {
             if (GameManager.Instance.IsGameOver)
             {
                 turnText.text = $"{GameManager.Instance.WinningTeam} Wins!";
+                return;
             }
-            else
+
+            string turnString = $"{GameManager.Instance.CurrentTurn} Turn";
+            
+            if (GameManager.Instance.IsCurrentPlayerInCheck)
             {
-                turnText.text = $"{GameManager.Instance.CurrentTurn} Turn";
+                turnString += "\n<size=70%><color=#D05050>CHECK</color></size>";
             }
+
+            turnText.text = turnString;
         }
     }
 }

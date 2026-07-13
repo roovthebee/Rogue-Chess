@@ -59,7 +59,7 @@ namespace RogueChess.Pieces
             }
         }
 
-        private void SpawnPiece(PieceData pieceData, Team team, BoardCoordinate coordinate)
+        public Piece SpawnPiece(PieceData pieceData, Team team, BoardCoordinate coordinate)
         {
             Vector3 worldPosition = boardManager.GetWorldPosition(coordinate);
 
@@ -69,6 +69,13 @@ namespace RogueChess.Pieces
             boardManager.PlacePiece(spawnedPiece, coordinate);
 
             spawnedPiece.name = $"{team} {pieceData.PieceName}";
+
+            return spawnedPiece;
+        }
+
+        public PieceData GetDefaultPromotionPiece(Team team)
+        {
+            return team == Team.White ? whiteQueenData : blackQueenData;
         }
     }
 }

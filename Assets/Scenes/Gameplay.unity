@@ -576,6 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7cfcb4e1944f44d9bde85fbaac0372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RogueChess.Core.GameManager
+  checkIndicatorManager: {fileID: 219891881}
+  turnUI: {fileID: 361715339}
 --- !u!4 &445567129
 Transform:
   m_ObjectHideFlags: 0
@@ -679,6 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RogueChess.Pieces.SelectionManager
   boardManager: {fileID: 283790106}
+  pieceSpawner: {fileID: 876448732}
 --- !u!4 &1752188148
 Transform:
   m_ObjectHideFlags: 0

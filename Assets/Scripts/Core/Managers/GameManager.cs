@@ -1,6 +1,7 @@
 using RogueChess.Board;
 using RogueChess.Core.Rules;
 using RogueChess.Pieces;
+using RogueChess.UI;
 using UnityEngine;
 
 namespace RogueChess.Core
@@ -13,6 +14,11 @@ namespace RogueChess.Core
         public bool IsGameOver { get; private set; }
 
         public Team? WinningTeam { get; private set; }
+
+        public bool IsCurrentPlayerInCheck => ChessRules.IsKingInCheck(CurrentTurn, FindAnyObjectByType<BoardManager>());
+
+        [SerializeField] private CheckIndicatorManager checkIndicatorManager;
+        [SerializeField] private TurnUI turnUI;
 
         private void Awake()
         {
@@ -35,17 +41,23 @@ namespace RogueChess.Core
             CurrentTurn = Team.White;
             IsGameOver = false;
             WinningTeam = null;
+            checkIndicatorManager.Refresh();
+            turnUI.Refresh();
         }
 
         public void EndTurn()
         {
             CurrentTurn = CurrentTurn == Team.White ? Team.Black : Team.White;
+            checkIndicatorManager.Refresh();
+            turnUI.Refresh();
         }
 
         public void EndGame(Team winningTeam)
         {
             WinningTeam = winningTeam;
             IsGameOver = true;
+            checkIndicatorManager.Refresh();
+            turnUI.Refresh();
         }
     }
 }

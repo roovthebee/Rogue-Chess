@@ -16,6 +16,8 @@ namespace RogueChess.Pieces
         private Piece selectedPiece;
         public Piece SelectedPiece => selectedPiece;
 
+        [SerializeField] private PieceSpawner pieceSpawner;
+
         private void OnEnable()
         {
             Tile.OnTileClicked += HandleTileClicked;
@@ -45,9 +47,11 @@ namespace RogueChess.Pieces
                 return;
             }
 
-            if (IsValidMove(tile.Coordinate))
+            MoveData? move = GetMove(tile.Coordinate);
+
+            if (move.HasValue)
             {
-                MovePiece(tile.Coordinate);
+                MovePiece(move.Value);
             }
             else
             {
@@ -105,17 +109,17 @@ namespace RogueChess.Pieces
             }
         }
 
-        private bool IsValidMove(BoardCoordinate coordinate)
+        private MoveData? GetMove(BoardCoordinate coordinate)
         {
             foreach (MoveData move in currentMoves)
             {
                 if (move.TargetCoordinate.X == coordinate.X && move.TargetCoordinate.Y == coordinate.Y)
                 {
-                    return true;
+                    return move;
                 }
             }
 
-            return false;
+            return null;
         }
 
         private void DeselectPiece()
@@ -125,9 +129,21 @@ namespace RogueChess.Pieces
             currentMoves.Clear();
         }
 
-        private void MovePiece(BoardCoordinate destination)
+        private void MovePiece(MoveData move)
         {
+            switch (move.SpecialMoveType)
+            {
+                case SpecialMoveType.CastleKingSide:
+                    ExecuteCastleKingSide(move);
+                    return;
+
+                case SpecialMoveType.CastleQueenSide:
+                    ExecuteCastleQueenSide(move);
+                    return;
+            }
+
             BoardCoordinate previousCoordinate = selectedPiece.Coordinate;
+            BoardCoordinate destination = move.TargetCoordinate;
 
             Piece targetPiece = boardManager.GetPieceAtCoordinate(destination);
 
@@ -142,16 +158,102 @@ namespace RogueChess.Pieces
                 boardManager.RemovePiece(destination);
             }
 
-            boardManager.RemovePiece(previousCoordinate);
-            boardManager.PlacePiece(selectedPiece, destination);
-            selectedPiece.SetCoordinate(destination);
-            selectedPiece.MarkMoved();
+            RelocatePiece(selectedPiece, previousCoordinate, destination);
+            HandlePromotion(selectedPiece);
+            DeselectPiece();
 
-            selectedPiece.transform.position = boardManager.GetWorldPosition(destination);
+            GameManager.Instance.EndTurn();
+        }
+
+        private void ExecuteCastleKingSide(MoveData move)
+        {
+            BoardCoordinate kingStart = selectedPiece.Coordinate;
+            BoardCoordinate rookStart = new BoardCoordinate(boardManager.BoardWidth - 1, kingStart.Y);
+
+            Piece rook = boardManager.GetPieceAtCoordinate(rookStart);
+
+            if (rook == null)
+            {
+                return;
+            }
+
+            BoardCoordinate kingDestination = move.TargetCoordinate;
+            BoardCoordinate rookDestination = new BoardCoordinate(kingDestination.X - 1, kingDestination.Y);
+
+            RelocatePiece(selectedPiece, kingStart, kingDestination);
+            RelocatePiece(rook, rookStart, rookDestination);
 
             DeselectPiece();
 
             GameManager.Instance.EndTurn();
+        }
+
+        private void ExecuteCastleQueenSide(MoveData move)
+        {
+            BoardCoordinate kingStart = selectedPiece.Coordinate;
+            BoardCoordinate rookStart = new BoardCoordinate(0, kingStart.Y);
+
+            Piece rook = boardManager.GetPieceAtCoordinate(rookStart);
+
+            if (rook == null)
+            {
+                return;
+            }
+
+            BoardCoordinate kingDestination = move.TargetCoordinate;
+            BoardCoordinate rookDestination = new BoardCoordinate(kingDestination.X + 1, kingDestination.Y);
+
+            RelocatePiece(selectedPiece, kingStart, kingDestination);
+            RelocatePiece(rook, rookStart, rookDestination);
+
+            DeselectPiece();
+
+            GameManager.Instance.EndTurn();
+        }
+
+        private void RelocatePiece(Piece piece, BoardCoordinate from, BoardCoordinate to)
+        {
+            boardManager.RemovePiece(from);
+            boardManager.PlacePiece(piece, to);
+            piece.SetCoordinate(to);
+            piece.MarkMoved();
+            piece.transform.position = boardManager.GetWorldPosition(to);
+        }
+
+        private void HandlePromotion(Piece piece)
+        {
+            if (piece.PieceData.PieceType != PieceType.Pawn)
+            {
+                return;
+            }
+
+            int promotionRank = piece.Team == Team.White ? boardManager.BoardHeight - 1 : 0;
+
+            if (piece.Coordinate.Y != promotionRank)
+            {
+                return;
+            }
+
+            PromotePawn(piece);
+        }
+
+        private void PromotePawn(Piece pawn)
+        {
+            BoardCoordinate coordinate = pawn.Coordinate;
+            Team team = pawn.Team;
+
+            PieceData promotionData = pieceSpawner.GetDefaultPromotionPiece(team);
+
+            boardManager.RemovePiece(coordinate);
+
+            if (selectedPiece == pawn)
+            {
+                selectedPiece = null;
+            }
+
+            Destroy(pawn.gameObject);
+
+            pieceSpawner.SpawnPiece(promotionData, team, coordinate);
         }
     }
 }
