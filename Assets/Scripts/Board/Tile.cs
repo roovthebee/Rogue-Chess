@@ -5,9 +5,12 @@ namespace RogueChess.Board
 {
     public class Tile : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private GameObject moveIndicator;
         [SerializeField] private GameObject captureIndicator;
+
+        private Color defaultColor;
 
         public BoardCoordinate Coordinate { get; private set; }
 
@@ -19,6 +22,17 @@ namespace RogueChess.Board
         }
 
         public void SetColor(Color color)
+        {
+            defaultColor = color;
+            spriteRenderer.color = color;
+        }
+
+        public void ResetColor()
+        {
+            spriteRenderer.color = defaultColor;
+        }
+
+        public void SetTemporaryColor(Color color)
         {
             spriteRenderer.color = color;
         }

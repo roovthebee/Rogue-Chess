@@ -8,10 +8,13 @@ namespace RogueChess.Pieces
 
         public bool IsCapture;
 
-        public MoveData(BoardCoordinate targetCoordinate, bool isCapture)
+        public SpecialMoveType SpecialMoveType;
+
+        public MoveData(BoardCoordinate targetCoordinate, bool isCapture, SpecialMoveType specialMoveType = SpecialMoveType.None)
         {
             TargetCoordinate = targetCoordinate;
             IsCapture = isCapture;
+            SpecialMoveType = specialMoveType;
         }
     }
 }
