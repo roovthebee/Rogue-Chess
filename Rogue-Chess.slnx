@@ -27,6 +27,7 @@
   <Project Path="Unity.Searcher.Editor.csproj" />
   <Project Path="Unity.Services.Wire.Internal.csproj" />
   <Project Path="Unity.2D.SpriteShape.Runtime.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.VisualScripting.Core.csproj" />
   <Project Path="Unity.Services.Deployment.csproj" />
   <Project Path="Unity.VisualScripting.State.Editor.csproj" />
@@ -70,7 +71,6 @@
   <Project Path="Unity.VisualScripting.SettingsProvider.Editor.csproj" />
   <Project Path="Unity.2D.Common.Runtime.csproj" />
   <Project Path="Unity.Services.Core.Threading.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
   <Project Path="Unity.Services.Multiplayer.Editor.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
