@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144ab733025fd814789da60bc69ea7de, type: 3}
+  m_Name: PD_BlackKing
+  m_EditorClassIdentifier: Assembly-CSharp::PieceData
+  pieceName: Black King
+  sprite: {fileID: -9041483226350349321, guid: c5554a0cae468c9499419df21b33bb53, type: 3}
+  pieceType: 5
+  movementRules:
+  - {fileID: 11400000, guid: e14309e4b3a13f8469bf8c21effe78d5, type: 2}
+  - {fileID: 11400000, guid: a6c5b762c91c97c458c7f48235c6e148, type: 2}
+  - {fileID: 11400000, guid: d37e757f8a2b98f42a65c777170a4313, type: 2}
+  - {fileID: 11400000, guid: bc17360818351c04488c51461cedc08d, type: 2}
+  - {fileID: 11400000, guid: 9e0eb307f6b09784589a66b5ac2c9a93, type: 2}
+  - {fileID: 11400000, guid: f20728f973f44dd4eb00a4fba8326e77, type: 2}
+  - {fileID: 11400000, guid: 3866adf67f9068f4e8844c84ee53d9f3, type: 2}
+  - {fileID: 11400000, guid: d59b5a071bb207b4d8e48d2077229ed0, type: 2}
