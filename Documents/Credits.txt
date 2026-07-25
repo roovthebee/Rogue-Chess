@@ -1,11 +1,31 @@
 Chess Piece Spritesheet
 - Archived at: https://commons.wikimedia.org/wiki/File:Chess_Pieces_Sprite.svg
-- Authored by: jurgenwesterhof
 - Original work: Cburnett
-- Date: 25th September 2014, 13:30:03
+- Date: 25th September, 2014
+- License(s): (CC BY-SA 3.0) https://creativecommons.org/licenses/by-sa/3.0/deed.en
 
-chess_move_on_alabaster.wav by mh2o -- https://freesound.org/s/351518/ -- License: Creative Commons 0
+chess_move_on_alabaster.wav by mh2o -- 
+- Archived at: https://freesound.org/s/351518/
+- Original work: mh2o
+- Date: August 5th, 2016
+- License(s): (CCO 1.0 Universal) https://creativecommons.org/publicdomain/zero/1.0/
 
-Knocking on a bottle.wav by Sami_Kullström -- https://freesound.org/s/388759/ -- License: Creative Commons 0
+Knocking on a bottle.wav by Sami_Kullström
+- Archived at: https://freesound.org/s/388759/
+- Original work: Sami_Kullström
+- Date: April 20th, 2017
+- License(s): (CCO 1.0 Universal) https://creativecommons.org/publicdomain/zero/1.0/
 
-Cursor by Raclure -- https://freesound.org/s/483600/ -- License: Creative Commons 0
+Cursor by Raclure 
+- Archived at: https://freesound.org/s/483600/
+- Original work: Raclure
+- Date: September 8th, 2019
+- License(s): (CCO 1.0 Universal) https://creativecommons.org/publicdomain/zero/1.0/
+
+Vortex Background 
+- Archived at: https://opengameart.org/content/vortex-background
+- Original work: darkrose
+- Date: December 29th, 2012
+- License(s): (CC0-BY-SA 3.0) https://creativecommons.org/licenses/by-sa/3.0/deed.en, 
+	(GPL 3.0) https://www.gnu.org/licenses/gpl-3.0.html, 
+	(GPL 2.0) https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
