@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144ab733025fd814789da60bc69ea7de, type: 3}
+  m_Name: PD_BlackKnight
+  m_EditorClassIdentifier: Assembly-CSharp::PieceData
+  pieceName: Black Knight
+  sprite: {fileID: 4825116634738732223, guid: c5554a0cae468c9499419df21b33bb53, type: 3}
+  pieceType: 1
+  movementRules:
+  - {fileID: 11400000, guid: 85a00d40ab7d32c469b6d14e06149c69, type: 2}
+  - {fileID: 11400000, guid: 18c05476e45d9fb498feefb254931994, type: 2}
+  - {fileID: 11400000, guid: 06fdf6392c33ee141958cfbc22cd507c, type: 2}
+  - {fileID: 11400000, guid: 5492321563e754043bac32e9e9563dda, type: 2}
+  - {fileID: 11400000, guid: 7bf590e20836e5840a8f70883d756975, type: 2}
+  - {fileID: 11400000, guid: f62653393a430aa4b8ecb454a2093eba, type: 2}
+  - {fileID: 11400000, guid: b1328bad25a3bf541a538818e80f5da4, type: 2}
+  - {fileID: 11400000, guid: 8deffebfbd6ff7544a11fe54560d2bb5, type: 2}

@@ -1,0 +1,11 @@
+Chess Piece Spritesheet
+- Archived at: https://commons.wikimedia.org/wiki/File:Chess_Pieces_Sprite.svg
+- Authored by: jurgenwesterhof
+- Original work: Cburnett
+- Date: 25th September 2014, 13:30:03
+
+chess_move_on_alabaster.wav by mh2o -- https://freesound.org/s/351518/ -- License: Creative Commons 0
+
+Knocking on a bottle.wav by Sami_Kullström -- https://freesound.org/s/388759/ -- License: Creative Commons 0
+
+Cursor by Raclure -- https://freesound.org/s/483600/ -- License: Creative Commons 0
