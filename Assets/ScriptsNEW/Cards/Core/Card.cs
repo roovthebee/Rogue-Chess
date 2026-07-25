@@ -23,8 +23,12 @@ public class Card
         currentCost = cardData.Cost;
     }
 
+    // Public Methods
+
     public bool Resolve(CardContext context)
     {
+        Debug.Log($"Resolving card");
+
         foreach (CardEffect effect in cardData.Effects)
         {
             if (!effect.Resolve(context))

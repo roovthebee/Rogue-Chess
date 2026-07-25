@@ -4,7 +4,7 @@ public class Hand
 {
     // Constants
 
-    private const int MaximumSize = 5;
+    private const int MaximumSize = 3;
 
     // Private Fields
 
@@ -49,6 +49,13 @@ public class Hand
     public bool Contains(Card card)
     {
         return cards.Contains(card);
+    }
+
+    public void SetCards(IEnumerable<Card> newCards)
+    {
+        cards.Clear();
+
+        cards.AddRange(newCards);
     }
 
     public void Clear()

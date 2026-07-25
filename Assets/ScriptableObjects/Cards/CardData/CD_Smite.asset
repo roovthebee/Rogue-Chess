@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4addc816d823a364da1d9f334f56049b, type: 3}
   m_Name: CD_Smite
   m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardId: 0
   cardName: Smite
   description: 'Destroy target pawn.
 

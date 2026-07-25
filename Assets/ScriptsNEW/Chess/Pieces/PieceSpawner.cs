@@ -52,6 +52,8 @@ public class PieceSpawner : MonoBehaviour
     public Piece SpawnPiece(PieceData pieceData, Team team, BoardCoordinate coordinate)
     {
         Piece piece = Instantiate(piecePrefab, boardManager.GetWorldPosition(coordinate), Quaternion.identity, transform);
+        
+        piece.UpdateView();
 
         piece.Initialize(pieceData, team, coordinate);
 

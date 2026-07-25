@@ -71,6 +71,14 @@ public class GameManager : MonoBehaviour
 
         cardManager.EndTurn();
 
+        boardManager.TickTileEffects();
+
+        foreach (Piece piece in boardManager.GetActivePieces())
+        {
+            piece.TickTemporaryMovementRules();
+            piece.TickStatuses();
+        }
+
         CurrentTurn = CurrentTurn == Team.White ? Team.Black : Team.White;
 
         cardManager.BeginTurn();

@@ -33,6 +33,8 @@ public class HandUI : MonoBehaviour
 
     private bool forceReveal;
 
+    private Card hoveredCard;
+
     // Unity Messages
 
     private void Start()
@@ -60,34 +62,6 @@ public class HandUI : MonoBehaviour
     {
         cardManager.HandChanged -= RefreshHand;
         cardManager.CardSelected -= UpdateSelection;
-    }
-
-    // Private Event Handlers
-
-    private void RefreshHand(Hand hand)
-    {
-        ClearHand();
-
-        foreach (Card card in hand.Cards)
-        {
-            CardUI cardUI = Instantiate(cardPrefab, cardContainer);
-
-            cardUI.Initialize(card, cardManager, infoPanel);
-
-            cardUIs.Add(cardUI);
-        }
-
-        UpdateSelection(cardManager.SelectedCard);
-
-        StartCoroutine(RevealRoutine());
-    }
-
-    private void UpdateSelection(Card selectedCard)
-    {
-        foreach (CardUI cardUI in cardUIs)
-        {
-            cardUI.SetSelected(cardUI.Card == selectedCard);
-        }
     }
 
     // Private Workflow
@@ -134,7 +108,72 @@ public class HandUI : MonoBehaviour
         }
     }
 
+    // Private Event Handlers
+
+    private void RefreshHand(Hand hand)
+    {
+        ClearHand();
+
+        foreach (Card card in hand.Cards)
+        {
+            CardUI cardUI = Instantiate(cardPrefab, cardContainer);
+
+            cardUI.Initialize(card, cardManager);
+
+            cardUIs.Add(cardUI);
+
+            cardUI.PointerEntered += OnCardHovered;
+            cardUI.PointerExited += OnCardHoverEnded;
+        }
+
+        UpdateSelection(cardManager.SelectedCard);
+
+        StartCoroutine(RevealRoutine());
+    }
+
+    private void UpdateSelection(Card selectedCard)
+    {
+        foreach (CardUI cardUI in cardUIs)
+        {
+            cardUI.SetSelected(cardUI.Card == selectedCard);
+        }
+
+        RefreshInfoPanel();
+    }
+
+    private void OnCardHovered(Card card)
+    {
+        hoveredCard = card;
+        RefreshInfoPanel();
+    }
+
+    private void OnCardHoverEnded(Card card)
+    {
+        if (hoveredCard == card)
+        {
+            hoveredCard = null;
+        }
+
+        RefreshInfoPanel();
+    }
+
     // Private Helpers
+
+    private void RefreshInfoPanel()
+    {
+        if (hoveredCard != null)
+        {
+            infoPanel.Show(hoveredCard);
+        }
+        else if (cardManager.SelectedCard != null)
+        {
+            infoPanel.Show(cardManager.SelectedCard);
+        }
+        else
+        {
+            infoPanel.Hide();
+        }
+    }
 
     private void ClearHand()
     {

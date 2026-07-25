@@ -104,10 +104,17 @@ public class ChessRules : MonoBehaviour
 
     private void GeneratePieceMoves(Piece piece, List<MoveData> moves, MoveGenerationMode mode)
     {
+        if (piece.HasStatus(PieceStatus.Frozen))
+        {
+            moves.Clear();
+            return;
+        }
+
         switch (piece.PieceData.PieceType)
         {
             case PieceType.Pawn:
                 GeneratePawnMoves(piece, moves, mode);
+                GenerateTemporaryMovementRules(piece, moves);
                 break;
 
             case PieceType.Knight:
@@ -143,7 +150,7 @@ public class ChessRules : MonoBehaviour
 
     private void GenerateSlidingMoves(Piece piece, List<MoveData> moves)
     {
-        foreach (MovementRule rule in piece.PieceData.MovementRules)
+        foreach (MovementRule rule in piece.GetMovementRules())
         {
             GenerateSlidingRule(piece, rule, moves);
         }
@@ -151,7 +158,7 @@ public class ChessRules : MonoBehaviour
 
     private void GenerateKnightMoves(Piece piece, List<MoveData> moves)
     {
-        foreach (MovementRule rule in piece.PieceData.MovementRules)
+        foreach (MovementRule rule in piece.GetMovementRules())
         {
             BoardCoordinate target = new BoardCoordinate(piece.Coordinate.X + rule.Direction.x, piece.Coordinate.Y + rule.Direction.y);
 
@@ -187,7 +194,7 @@ public class ChessRules : MonoBehaviour
 
     private void GenerateNormalKingMoves(Piece piece, List<MoveData> moves)
     {
-        foreach (MovementRule rule in piece.PieceData.MovementRules)
+        foreach (MovementRule rule in piece.GetMovementRules())
         {
             BoardCoordinate target = new BoardCoordinate(piece.Coordinate.X + rule.Direction.x, piece.Coordinate.Y + rule.Direction.y);
 
@@ -431,6 +438,25 @@ public class ChessRules : MonoBehaviour
     }
 
     // Private Helpers
+
+    private void GenerateTemporaryMovementRules(Piece piece, List<MoveData> moves)
+    {
+        foreach (TemporaryMovementRule temporaryRule in piece.TemporaryMovementRules)
+        {
+            MovementRule rule = temporaryRule.Rule;
+
+            if (rule.UnlimitedRange || rule.MaxDistance > 1)
+            {
+                GenerateSlidingMoves(piece, moves);
+            }
+            else
+            {
+                BoardCoordinate target = new(piece.Coordinate.X + rule.Direction.x, piece.Coordinate.Y + rule.Direction.y);
+
+                EvaluateJumpSquare(piece, target, moves);
+            }
+        }
+    }
 
     private void AddPawnAttackSquare(Piece piece, BoardCoordinate target, List<MoveData> moves)
     {

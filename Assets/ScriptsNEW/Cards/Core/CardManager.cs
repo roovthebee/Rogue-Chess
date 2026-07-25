@@ -10,7 +10,15 @@ public class CardManager : MonoBehaviour
 
     [SerializeField] private List<CardData> startingDeck;
 
+    [SerializeField] private NetworkGameManager networkGameManager;
+
+    [SerializeField] private SelectionManager selectionManager;
+
+    [SerializeField] private ChessRules chessRules;
+
     // Private Fields
+
+    private readonly Dictionary<int, Card> cardLookup = new();
 
     private readonly Deck deck = new();
     
@@ -58,7 +66,10 @@ public class CardManager : MonoBehaviour
     {
         foreach (CardData cardData in startingDeck)
         {
-            deck.Add(new Card(cardData));
+            Card card = new(cardData);
+
+            deck.Add(card);
+            cardLookup[cardData.CardId] = card;
         }
 
         deck.Shuffle();
@@ -67,6 +78,16 @@ public class CardManager : MonoBehaviour
     }
 
     // Public Methods
+
+    public Card CreateCard(int cardId)
+    {
+        if (!cardLookup.TryGetValue(cardId, out Card card))
+        {
+            return null;
+        }
+
+        return card;
+    }
 
     public void CancelSelection()
     {
@@ -82,6 +103,18 @@ public class CardManager : MonoBehaviour
 
     public void SelectCard(Card card)
     {
+        Team team = PlayerRoleManager.Instance.LocalTeam;
+
+        if (GameManager.Instance.CurrentTurn != team)
+        {
+            return;
+        }
+
+        if (chessRules.IsKingInCheck(team))
+        {
+            return;
+        }
+
         if (!CanSelectCard(card))
         {
             return;
@@ -97,6 +130,8 @@ public class CardManager : MonoBehaviour
         {
             ClearSelection();
         }
+
+        selectionManager.ClearSelection();
 
         SetSelectedCard(card);
 
@@ -164,6 +199,31 @@ public class CardManager : MonoBehaviour
         CancelSelection();
     }
 
+    public void SetHand(IEnumerable<Card> cards)
+    {
+        hand.SetCards(cards);
+
+        HandChanged?.Invoke(hand);
+    }
+
+    public bool IsHost()
+    {
+        return networkGameManager.IsHost;
+    }
+
+    public void CompleteCardPlay()
+    {
+        hand.Remove(selectedCard);
+
+        discardPile.Add(selectedCard);
+
+        HandChanged?.Invoke(hand);
+
+        ClearSelection();
+
+        EnterPlayPhase();
+    }
+
     // Private Workflow
 
     private void EnterPlayPhase()
@@ -178,28 +238,7 @@ public class CardManager : MonoBehaviour
 
     private void ResolveSelectedCard(CardTarget target)
     {
-        CardContext context = new(selectedCard, target, GameManager.Instance.CurrentTurn, boardManager, GameManager.Instance, this);
-
-
-        if(selectedCard.Resolve(context))
-        {
-            hasPlayedCardThisTurn = true;
-
-            CompleteCardPlay();
-        }
-    }
-
-    private void CompleteCardPlay()
-    {
-        hand.Remove(selectedCard);
-
-        discardPile.Add(selectedCard);
-
-        HandChanged?.Invoke(hand);
-
-        ClearSelection();
-
-        EnterPlayPhase();
+        networkGameManager.ExecuteCard(selectedCard, target);
     }
 
     // Private State

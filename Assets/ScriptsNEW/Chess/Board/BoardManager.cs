@@ -16,10 +16,6 @@ public class BoardManager : MonoBehaviour
 
     [SerializeField] private Tile tilePrefab;
 
-    [SerializeField] private Color lightTileColor;
-
-    [SerializeField] private Color darkTileColor;
-
     // Private Fields
 
     private Tile[,] tiles;
@@ -225,6 +221,47 @@ public class BoardManager : MonoBehaviour
         checkTile = null;
     }
 
+    public IEnumerable<Tile> GetAllTiles()
+    {
+        foreach (Tile tile in tiles)
+        {
+            yield return tile;
+        }
+    }
+
+    public Team GetTileTeam(BoardCoordinate coordinate)
+    {
+        bool isWhite = (coordinate.X + coordinate.Y) % 2 != 0;
+
+        return isWhite ? Team.White : Team.Black;
+    }
+
+    public void TickTileEffects()
+    {
+        foreach (Tile tile in tiles)
+        {
+            for (int i = tile.TemporaryEffects.Count - 1; i >= 0; i--)
+            {
+                TemporaryTileEffect temporaryEffect = tile.TemporaryEffects[i];
+                
+                temporaryEffect.RemainingTurns--;
+
+                if (temporaryEffect.RemainingTurns <= 0)
+                {
+                    temporaryEffect.Effect.OnRemove(tile, this);
+
+                    tile.TemporaryEffects.Remove(temporaryEffect);
+
+                    tile.UpdateVisual();
+
+                    continue;
+                }
+
+                temporaryEffect.Effect.Apply(tile, this);
+            }
+        }
+    }
+
     // Private Workflow
 
     private void CreateTiles()
@@ -242,9 +279,7 @@ public class BoardManager : MonoBehaviour
     {
         Tile tile = Instantiate(tilePrefab, GetWorldPosition(coordinate), Quaternion.identity, transform);
 
-        tile.Initialize(coordinate);
-
-        tile.SetColor(GetTileColor(coordinate));
+        tile.Initialize(coordinate, GetTileTeam(coordinate));
 
         tiles[coordinate.X, coordinate.Y] = tile;
     }
@@ -291,13 +326,6 @@ public class BoardManager : MonoBehaviour
     }
 
     // Private State
-
-    private Color GetTileColor(BoardCoordinate coordinate)
-    {
-        bool isLightTile = (coordinate.X + coordinate.Y) % 2 != 0;
-
-        return isLightTile ? lightTileColor : darkTileColor;
-    }
 
     private void UpdatePiecePosition(Piece piece, BoardCoordinate startCoordinate, BoardCoordinate targetCoordinate)
     {

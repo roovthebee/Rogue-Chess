@@ -5,11 +5,13 @@ public class SelectionManager : MonoBehaviour
 {
     // Serialized Fields
 
+    [SerializeField] private CardManager cardManager;
+
     [SerializeField] private BoardManager boardManager;
 
     [SerializeField] private ChessRules chessRules;
 
-    [SerializeField] private CardManager cardManager;
+    [SerializeField] private NetworkGameManager networkGameManager;
 
     // Private Fields
 
@@ -18,10 +20,6 @@ public class SelectionManager : MonoBehaviour
     private readonly List<MoveData> currentMoves = new();
 
     private readonly List<Tile> highlightedTiles = new();
-
-    // Public Properties
-
-    // Events
 
     // Unity Messages
 
@@ -36,6 +34,19 @@ public class SelectionManager : MonoBehaviour
     }
 
     // Public Methods
+
+    public void ClearSelection()
+    {
+        if (selectedPiece == null)
+        {
+            return;
+        }
+
+        ClearHighlights();
+
+        selectedPiece = null;
+        currentMoves.Clear();
+    }
 
     // Private Workflow
 
@@ -80,6 +91,13 @@ public class SelectionManager : MonoBehaviour
             return;
         }
 
+        if (!PlayerRoleManager.Instance.CanControlTeam(piece.Team))
+        {
+            DeselectPiece();
+
+            return;
+        }
+
         SelectPiece(piece);
     }
 
@@ -92,9 +110,7 @@ public class SelectionManager : MonoBehaviour
                 continue;
             }
 
-            boardManager.ExecuteMove(move);
-
-            GameManager.Instance.EndTurn();
+            networkGameManager.ExecuteMove(move);
 
             DeselectPiece();
 
@@ -150,14 +166,26 @@ public class SelectionManager : MonoBehaviour
 
     private void HandleCardTarget(Tile tile)
     {
-        Piece piece = boardManager.GetPiece(tile.Coordinate);
+        Card selectedCard = cardManager.SelectedCard;
 
-        if (piece == null)
+        switch (selectedCard.CardData.TargetType)
         {
-            return;
-        }
+            case TargetType.Tile:
+                cardManager.SelectTarget(new TileTarget(tile.Coordinate));
+                return;
 
-        cardManager.SelectTarget(new PieceTarget(piece));
+            case TargetType.Piece:
+
+                Piece piece = boardManager.GetPiece(tile.Coordinate);
+
+                if (piece == null)
+                {
+                    return;
+                }
+
+                cardManager.SelectTarget(new PieceTarget(piece));
+                return;
+        }
     }
 
     // Private State

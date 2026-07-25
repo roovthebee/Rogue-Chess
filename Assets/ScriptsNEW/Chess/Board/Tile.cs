@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -11,7 +12,15 @@ public class Tile : MonoBehaviour
 
     [SerializeField] private GameObject captureIndicator;
 
-    [SerializeField] private Color checkColor;
+    [SerializeField] private GameObject checkIndicator;
+
+    [Header("Tile Colors")]
+
+    [SerializeField] private Color lightTileColor;
+    [SerializeField] private Color darkTileColor;
+
+    [SerializeField] private Color frozenLightColor;
+    [SerializeField] private Color frozenDarkColor;
 
     // Private Fields
 
@@ -19,26 +28,35 @@ public class Tile : MonoBehaviour
 
     private Color defaultColor;
 
+    private Team tileTeam;
+
     // Public Properties
 
     public BoardCoordinate Coordinate => coordinate;
+
+    public List<TemporaryTileEffect> TemporaryEffects = new();
+
+    public bool IsLightTile => tileTeam == Team.White;
 
     // Events
 
     public static event Action<Tile> TileClicked;
 
-    // Public Methods
+    // Unity Messages
 
-    public void Initialize(BoardCoordinate coordinate)
+    private void OnMouseDown()
     {
-        this.coordinate = coordinate;
+        TileClicked?.Invoke(this);
     }
 
-    public void SetColor(Color color)
-    {
-        spriteRenderer.color = color;
+    // Public Methods
 
-        defaultColor = color;
+    public void Initialize(BoardCoordinate coordinate, Team tileTeam)
+    {
+        this.coordinate = coordinate;
+        this.tileTeam = tileTeam;
+
+        UpdateVisual();
     }
 
     public void Highlight(bool isCapture)
@@ -57,18 +75,48 @@ public class Tile : MonoBehaviour
 
     public void HighlightCheck()
     {
-        spriteRenderer.color = checkColor;
+        checkIndicator.SetActive(true);
     }
 
     public void ResetCheckHighlight()
     {
-        spriteRenderer.color = defaultColor;
+        checkIndicator.SetActive(false);
     }
 
-    // Unity Messages
-
-    private void OnMouseDown()
+    public void AddTemporaryEffect(TileEffect effect, int duration)
     {
-        TileClicked?.Invoke(this);
+        TemporaryEffects.Add(new TemporaryTileEffect(effect, duration));
+
+        UpdateVisual();
+    }
+
+    public void ApplyEffects(BoardManager boardManager)
+    {
+        foreach (TemporaryTileEffect effect in TemporaryEffects)
+        {
+            effect.Effect.Apply(this, boardManager);
+        }
+    }
+
+    public bool HasEffect<T>() where T : TileEffect
+    {
+        return TemporaryEffects.Exists(effect => effect.Effect is T);
+    }
+
+    public void UpdateVisual()
+    {
+        spriteRenderer.color = GetCurrentColor();
+    }
+
+    // Private Helpers
+
+    private Color GetCurrentColor()
+    {
+        if (HasEffect<FrozenTileEffect>())
+        {
+            return IsLightTile ? frozenLightColor : frozenDarkColor;
+        }
+
+        return IsLightTile ? lightTileColor : darkTileColor;
     }
 }
