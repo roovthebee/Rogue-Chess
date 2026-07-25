@@ -1,9 +1,10 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardUI : MonoBehaviour, IPointerEnterHandler
+public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     // Serialized Fields
 
@@ -21,33 +22,30 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler
 
     private CardManager cardManager;
 
-    private CardInfoPanelUI infoPanel;
-
     // Public Properties
 
     public Card Card => card;
 
-    // Unity Messages
+    // Events
 
-    private void Awake()
-    {
-        button.onClick.AddListener(OnClicked);
+    public event Action<Card> PointerEntered;
 
-        selectionHighlight.SetActive(false);
-    }
+    public event Action<Card> PointerExited;
 
     // Public Methods
 
-    public void Initialize(Card card, CardManager cardManager, CardInfoPanelUI infoPanel)
+    public void Initialize(Card card, CardManager cardManager)
     {
         this.card = card;
         this.cardManager = cardManager;
-        this.infoPanel = infoPanel;
 
         CardData data = card.CardData;
 
         artworkImage.sprite = data.Artwork;
         nameText.text = data.CardName;
+
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(OnClicked);
     }
 
     public void SetSelected(bool selected)
@@ -57,7 +55,12 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        infoPanel.Show(card);
+        PointerEntered?.Invoke(card);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        PointerExited?.Invoke(card);
     }
 
     // Private Event Handlers

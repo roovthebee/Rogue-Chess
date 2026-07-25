@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Rogue Chess/Cards/Effects/Destroy Piece")]
-public class DestroyPieceEffect : CardEffect
+public class DestroyPieceCardEffect : CardEffect
 {
     // Serialized Fields
 

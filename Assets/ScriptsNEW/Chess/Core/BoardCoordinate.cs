@@ -1,19 +1,26 @@
 using System;
+using Unity.Netcode;
 
-public readonly struct BoardCoordinate : IEquatable<BoardCoordinate>
+public struct BoardCoordinate : IEquatable<BoardCoordinate>, INetworkSerializable
 {
+    // Private Fields
+
+    private int x;
+
+    private int y;
+
     // Public Properties
 
-    public int X { get; }
-
-    public int Y { get; }
+    public readonly int X => x;
+    
+    public readonly int Y => y;
 
     // Constructors
 
     public BoardCoordinate(int x, int y)
     {
-        X = x;
-        Y = y;
+        this.x = x;
+        this.y = y;
     }
 
     // Public Methods
@@ -31,6 +38,12 @@ public readonly struct BoardCoordinate : IEquatable<BoardCoordinate>
     public override string ToString()
     {
         return $"({X}, {Y})";
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref x);
+        serializer.SerializeValue(ref y);
     }
 
     // Operators

@@ -6,6 +6,8 @@ public class CardData : ScriptableObject
 {
     // Serialized Fields
 
+    [SerializeField] private int cardId;
+
     [SerializeField] private string cardName;
 
     [SerializeField, TextArea] private string description;
@@ -18,9 +20,13 @@ public class CardData : ScriptableObject
 
     [SerializeField] private TargetType targetType;
 
+    [SerializeField] private bool endsTurn = true;
+
     [SerializeField] private List<CardEffect> effects = new();
 
     // Public Properties
+
+    public int CardId => cardId;
 
     public string CardName => cardName;
 
@@ -33,6 +39,8 @@ public class CardData : ScriptableObject
     public int Cost => cost;
 
     public TargetType TargetType => targetType;
+
+    public bool EndsTurn => endsTurn;
 
     public IReadOnlyList<CardEffect> Effects => effects;
 }

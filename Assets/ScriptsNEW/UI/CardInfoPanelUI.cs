@@ -19,6 +19,8 @@ public class CardInfoPanelUI : MonoBehaviour
 
     private void Awake()
     {
+        gameObject.SetActive(false);
+
         Clear();
     }
 
@@ -26,6 +28,8 @@ public class CardInfoPanelUI : MonoBehaviour
 
     public void Show(Card card)
     {
+        gameObject.SetActive(true);
+
         if (card == null)
         {
             Clear();
@@ -41,6 +45,11 @@ public class CardInfoPanelUI : MonoBehaviour
         descriptionText.text = data.Description;
 
         rarityBorderImage.color = GetRarityColor(data.Rarity);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
     public void Clear()

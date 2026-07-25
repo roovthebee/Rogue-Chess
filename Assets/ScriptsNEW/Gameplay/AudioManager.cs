@@ -12,13 +12,9 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioClip checkClip;
 
-    // Private Fields
-
     // Public Properties
 
     public static AudioManager Instance { get; private set; }
-
-    // Events
 
     // Unity Messages
 
@@ -50,8 +46,6 @@ public class AudioManager : MonoBehaviour
     {
         PlayClip(checkClip);
     }
-
-    // Private Workflow
 
     // Private Event Handlers
 
